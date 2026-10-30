@@ -3,3 +3,5 @@
 .terraform/
 *.pem
 .env
+infra/terraform.tfvars
+*.pem
