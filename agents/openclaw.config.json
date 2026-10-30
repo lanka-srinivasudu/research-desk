@@ -1,0 +1,186 @@
+{
+  "wizard": {
+    "securityAcknowledgedAt": "2026-10-30T06:23:01.943Z",
+    "accessMode": "full",
+    "lastRunAt": "2026-10-30T06:41:35.098Z",
+    "lastRunVersion": "2026.10.9",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "plugins": {
+    "entries": {
+      "anthropic": {
+        "config": {
+          "sessionCatalog": {
+            "enabled": false
+          }
+        }
+      },
+      "codex": {
+        "config": {
+          "sessionCatalog": {
+            "enabled": false
+          }
+        }
+      },
+      "openrouter": {
+        "enabled": true
+      }
+    }
+  },
+  "meta": {
+    "migrations": {
+      "modelPolicyAllowlist": true,
+      "utilityModelSeparation": true
+    },
+    "lastTouchedVersion": "2026.10.9"
+  },
+  "agents": {
+    "defaults": {
+      "models": {
+        "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {
+          "alias": "Nemotron Ultra Free",
+          "agentRuntime": {
+            "id": "openclaw"
+          }
+        },
+        "openrouter/auto": {
+          "alias": "OpenRouter"
+        }
+      },
+      "model": "openrouter/auto@openrouter:setup-54c60f70-8759-4510-bbce-9ab2701c1359",
+      "authInheritance": {
+        "agentId": "main"
+      },
+      "systemAgent": {
+        "agentId": "coordinator"
+      },
+      "heartbeat": {
+        "agentId": "coordinator"
+      },
+      "workspace": "/Users/lankasrinivasudu8gmail.com/.openclaw/workspace"
+    },
+    "ownership": "explicit",
+    "entries": {
+      "coordinator": {
+        "name": "coordinator",
+        "workspace": "/Users/lankasrinivasudu8gmail.com/.openclaw/workspace/coordinator",
+        "agentDir": "/Users/lankasrinivasudu8gmail.com/.openclaw/agents/coordinator/agent",
+        "identity": {
+          "name": "Chief of Staff",
+          "emoji": "\ud83e\udded",
+          "theme": "calm, accountable coordination"
+        },
+        "subagents": {
+          "allowAgents": [
+            "researcher",
+            "writer",
+            "reviewer"
+          ],
+          "delegationMode": "prefer"
+        },
+        "models": {
+          "openrouter/auto": {
+            "agentRuntime": {
+              "id": "openclaw"
+            }
+          }
+        }
+      },
+      "researcher": {
+        "name": "researcher",
+        "workspace": "/Users/lankasrinivasudu8gmail.com/.openclaw/workspace/researcher",
+        "agentDir": "/Users/lankasrinivasudu8gmail.com/.openclaw/agents/researcher/agent",
+        "identity": {
+          "name": "Researcher",
+          "emoji": "\ud83d\udd0e",
+          "theme": "curious, evidence-led research"
+        },
+        "subagents": {
+          "allowAgents": []
+        }
+      },
+      "writer": {
+        "name": "writer",
+        "workspace": "/Users/lankasrinivasudu8gmail.com/.openclaw/workspace/writer",
+        "agentDir": "/Users/lankasrinivasudu8gmail.com/.openclaw/agents/writer/agent",
+        "identity": {
+          "name": "Writer",
+          "emoji": "\u270d\ufe0f",
+          "theme": "clear, audience-aware writing"
+        },
+        "subagents": {
+          "allowAgents": []
+        }
+      },
+      "reviewer": {
+        "name": "reviewer",
+        "workspace": "/Users/lankasrinivasudu8gmail.com/.openclaw/workspace/reviewer",
+        "agentDir": "/Users/lankasrinivasudu8gmail.com/.openclaw/agents/reviewer/agent",
+        "identity": {
+          "name": "Reviewer",
+          "emoji": "\ud83d\udd0d",
+          "theme": "careful, independent review"
+        },
+        "subagents": {
+          "allowAgents": []
+        }
+      },
+      "critic": {
+        "name": "critic",
+        "workspace": "/Users/lankasrinivasudu8gmail.com/.openclaw/workspace/critic",
+        "agentDir": "/Users/lankasrinivasudu8gmail.com/.openclaw/agents/critic/agent",
+        "model": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+        "identity": {
+          "name": "critic"
+        }
+      }
+    }
+  },
+  "auth": {
+    "profiles": {
+      "openrouter:setup-88c6f868-a777-4236-9a98-17c18b5905b8": {
+        "provider": "openrouter",
+        "mode": "api_key"
+      },
+      "openrouter:default": {
+        "provider": "openrouter",
+        "mode": "api_key"
+      },
+      "openrouter:setup-54c60f70-8759-4510-bbce-9ab2701c1359": {
+        "provider": "openrouter",
+        "mode": "api_key"
+      }
+    }
+  },
+  "talk": {
+    "agentId": "coordinator"
+  },
+  "gateway": {
+    "mode": "local",
+    "port": 18789,
+    "bind": "loopback",
+    "auth": {
+      "mode": "token"
+    },
+    "tailscale": {
+      "mode": "off"
+    }
+  },
+  "tools": {
+    "profile": "full"
+  },
+  "hooks": {
+    "internal": {
+      "entries": {
+        "session-memory": {
+          "enabled": true
+        }
+      }
+    }
+  },
+  "telemetry": {
+    "enabled": false,
+    "consentedAt": "2026-10-30T08:30:27.208Z"
+  }
+}
