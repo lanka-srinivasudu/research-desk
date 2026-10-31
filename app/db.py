@@ -127,10 +127,10 @@ def update_job(job_id: int, **fields) -> bool:
     if "stage" in fields and fields["stage"] not in VALID_STAGES:
         raise ValueError(f"Invalid stage: {fields['stage']}. Must be one of {VALID_STAGES}")
     
-    # Always update updated_at
-    fields["updated_at"] = "CURRENT_TIMESTAMP"
-    
-    set_clause = ", ".join(f"{k} = ?" for k in fields.keys())
+    # Build SET clause with updated_at = CURRENT_TIMESTAMP inline
+    set_parts = [f"{k} = ?" for k in fields.keys()]
+    set_parts.append("updated_at = CURRENT_TIMESTAMP")
+    set_clause = ", ".join(set_parts)
     values = list(fields.values()) + [job_id]
     
     with transaction() as conn:
