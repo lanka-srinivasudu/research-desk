@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Research Desk</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
+        h1 { color: #1a1a2e; margin-bottom: 0.5rem; }
+        .subtitle { color: #666; margin-bottom: 2rem; }
+        form { display: flex; flex-direction: column; gap: 1rem; }
+        textarea { width: 100%; min-height: 120px; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem; resize: vertical; }
+        textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+        button { background: #3b82f6; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; align-self: flex-start; }
+        button:hover { background: #2563eb; }
+        .flash { background: #dcfce7; color: #166534; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+        .error { background: #fee2e2; color: #991b1b; }
+        a { color: #3b82f6; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .footer { margin-top: 3rem; color: #999; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <h1>Research Desk</h1>
+    <p class="subtitle">Submit a research question. We'll plan, research, and review the answer.</p>
+
+    {% if flash %}
+    <div class="flash {{ 'error' if flash_type == 'error' else '' }}">{{ flash }}</div>
+    {% endif %}
+
+    <form method="post" action="/submit">
+        <textarea name="question" placeholder="What do you want researched? Be specific..." required></textarea>
+        <button type="submit">Submit Question</button>
+    </form>
+
+    <p class="footer"><a href="/board">View job board &rarr;</a></p>
+</body>
+</html>
