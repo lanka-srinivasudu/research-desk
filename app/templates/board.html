@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Board - Research Desk</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1000px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
+        h1 { color: #1a1a2e; margin-bottom: 0.5rem; }
+        .subtitle { color: #666; margin-bottom: 2rem; }
+        .section { margin-bottom: 3rem; }
+        .section h2 { color: #1a1a2e; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .section.needs-human h2 { border-color: #fca5a5; color: #991b1b; }
+        .job-card { background: #fafafa; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+        .job-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 1rem; }
+        .job-question { font-weight: 600; color: #1a1a2e; flex: 1; }
+        .job-stage { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+        .stage-plan { background: #dbeafe; color: #1e40af; }
+        .stage-research { background: #fef3c7; color: #92400e; }
+        .stage-review { background: #e0e7ff; color: #3730a3; }
+        .stage-published { background: #dcfce7; color: #166534; }
+        .stage-needs-human { background: #fee2e2; color: #991b1b; }
+        .job-meta { font-size: 0.875rem; color: #666; margin-bottom: 1rem; }
+        .job-answer { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; white-space: pre-wrap; font-size: 0.9375rem; line-height: 1.7; }
+        .job-answer a { color: #3b82f6; text-decoration: underline; }
+        .empty { color: #999; font-style: italic; padding: 2rem; text-align: center; }
+        .nav { margin-bottom: 2rem; }
+        .nav a { color: #3b82f6; text-decoration: none; }
+        .nav a:hover { text-decoration: underline; }
+        .retry-info { font-size: 0.8125rem; color: #f59e0b; background: #fef3c7; padding: 0.5rem 0.75rem; border-radius: 6px; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <div class="nav"><a href="/">&larr; Back to submit</a></div>
+    <h1>Job Board</h1>
+    <p class="subtitle">All research jobs and their current status</p>
+
+    {% for stage_name, stage_label, jobs in active_sections %}
+    <div class="section">
+        <h2>{{ stage_label }} ({{ jobs|length }})</h2>
+        {% if jobs %}
+            {% for job in jobs %}
+            <div class="job-card">
+                <div class="job-header">
+                    <span class="job-question">{{ job.question }}</span>
+                    <span class="job-stage stage-{{ job.stage }}">{{ job.stage.replace('_', ' ') }}</span>
+                </div>
+                <div class="job-meta">ID: {{ job.id }} | Created: {{ job.created_at }} | Updated: {{ job.updated_at }}</div>
+                {% if job.retry_count > 0 %}
+                <div class="retry-info">Retry count: {{ job.retry_count }}</div>
+                {% endif %}
+                {% if job.review_output and job.stage in ['published', 'needs_human'] %}
+                <div class="job-answer">{{ job.review_output }}</div>
+                {% elif job.research_output %}
+                <div class="job-answer">{{ job.research_output }}</div>
+                {% elif job.plan_output %}
+                <div class="job-answer"><em>Plan:</em>
+{{ job.plan_output }}</div>
+                {% else %}
+                <div class="job-answer"><em>Processing...</em></div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty">No jobs in this stage</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% if needs_human_jobs %}
+    <div class="section needs-human">
+        <h2>Needs Human Review ({{ needs_human_jobs|length }})</h2>
+        {% for job in needs_human_jobs %}
+        <div class="job-card">
+            <div class="job-header">
+                <span class="job-question">{{ job.question }}</span>
+                <span class="job-stage stage-needs-human">Needs Human</span>
+            </div>
+            <div class="job-meta">ID: {{ job.id }} | Created: {{ job.created_at }} | Updated: {{ job.updated_at }}</div>
+            <div class="retry-info">Failed review: {{ job.review_output or 'No reason recorded' }}</div>
+            {% if job.research_output %}
+            <div class="job-answer"><strong>Last research output:</strong>
+{{ job.research_output }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</body>
+</html>
