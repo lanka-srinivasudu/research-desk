@@ -1,6 +1,7 @@
 """Worker that processes jobs through plan -> research -> review pipeline."""
 
 import json
+import re
 from typing import Optional
 
 from .db import (
@@ -11,6 +12,14 @@ from .db import (
     VALID_STAGES,
 )
 from .llm import get_client
+
+
+def extract_json(text: str) -> str:
+    """Strip markdown code fences from LLM output before JSON parsing."""
+    # Remove ```json or ``` fences
+    text = re.sub(r'^```(?:json)?\s*', '', text.strip())
+    text = re.sub(r'\s*```$', '', text)
+    return text
 
 
 # --- Prompts ---
@@ -86,7 +95,7 @@ def run_plan(job_id: int) -> bool:
             {"role": "system", "content": "You are a research planner. Output only valid JSON."},
             {"role": "user", "content": PLAN_PROMPT.format(question=job["question"])},
         ])
-        plan = json.loads(response)
+        plan = json.loads(extract_json(response))
         update_job(job_id, stage="research", plan_output=json.dumps(plan, indent=2))
         return True
     except Exception as e:
@@ -136,7 +145,7 @@ def run_review(job_id: int) -> bool:
                 question=job["question"],
             )},
         ])
-        result = json.loads(response)
+        result = json.loads(extract_json(response))
 
         if result["decision"] == "accept":
             update_job(job_id, stage="published", review_output=result["final_answer"])
