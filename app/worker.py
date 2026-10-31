@@ -31,14 +31,14 @@ Return ONLY a JSON object with these fields:
 - "sources": array of strings, suggested source types (e.g., "arXiv", "Wikipedia", "news", "official docs")
 
 Example:
-{
+{{
   "steps": [
     "Search arXiv for recent papers on transformer scaling laws",
     "Find Wikipedia article on Chinchilla scaling law",
     "Check OpenAI blog for GPT-4 technical details"
   ],
   "sources": ["arXiv", "Wikipedia", "official blogs"]
-}
+}}
 
 User question: {question}"""
 
