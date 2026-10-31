@@ -26,7 +26,7 @@
     <p class="subtitle">Submit a research question. We'll plan, research, and review the answer.</p>
 
     {% if flash %}
-    <div class="flash {{ 'error' if flash_type == 'error' else '' }}">{{ flash | safe }}</div>
+    <div class="flash {{ 'error' if flash_type == 'error' else '' }}">{{ flash }}</div>
     {% endif %}
 
     <form method="post" action="/submit">

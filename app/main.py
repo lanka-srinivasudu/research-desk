@@ -1,5 +1,6 @@
 """FastAPI app for research-desk: submit questions, view job board."""
 
+import asyncio
 import os
 from pathlib import Path
 from contextlib import asynccontextmanager
@@ -9,7 +10,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from .db import init_db, create_job, get_job, list_jobs, VALID_STAGES
-from .worker import process_job
+from .worker import process_job, process_queued_jobs
 
 
 # --- Setup ---
@@ -23,7 +24,23 @@ templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    
+    # Background worker task
+    async def background_worker():
+        while True:
+            try:
+                process_queued_jobs(limit=10)
+            except Exception:
+                pass  # Log in production
+            await asyncio.sleep(5)
+    
+    worker_task = asyncio.create_task(background_worker())
     yield
+    worker_task.cancel()
+    try:
+        await worker_task
+    except asyncio.CancelledError:
+        pass
 
 
 app = FastAPI(title="Research Desk", lifespan=lifespan)
@@ -189,10 +206,7 @@ async def submit_question(request: Request, question: str = Form(...)):
     # Process synchronously for now (plan stage)
     process_job(job_id)
 
-    return templates.TemplateResponse(request, "index.html", {
-        "request": request,
-        "flash": f"Question submitted! Job #{job_id} created and planning started. <a href='/board'>View board</a>",
-    })
+    return RedirectResponse(url="/board", status_code=303)
 
 
 @app.get("/board", response_class=HTMLResponse)
