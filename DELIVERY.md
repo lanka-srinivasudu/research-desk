@@ -2,7 +2,7 @@
 
 Agent-delivered take-home for Confer Inc.
 
-- **Live UI:** https://incident-alien-senators-group.trycloudflare.com
+- **Live UI:** https://exemption-repost-crewman.ngrok-free.dev
 - **Repo:** https://github.com/lanka-srinivasudu/research-desk
 
 > The live link is served from my own machine through a Cloudflare Quick Tunnel.
