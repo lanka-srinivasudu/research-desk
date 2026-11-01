@@ -2,7 +2,7 @@
 
 Agent-delivered take-home for Confer Inc.
 
-- **Live UI:** https://look-listening-salary-visitors.trycloudflare.com
+- **Live UI:** https://incident-alien-senators-group.trycloudflare.com
 - **Repo:** https://github.com/lanka-srinivasudu/research-desk
 
 > The live link is served from my own machine through a Cloudflare Quick Tunnel.
