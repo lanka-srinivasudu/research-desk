@@ -5,7 +5,7 @@ Agent-delivered take-home for Confer Inc.
 - **Live UI:** https://exemption-repost-crewman.ngrok-free.dev
 - **Repo:** https://github.com/lanka-srinivasudu/research-desk
 
-> The live link is served from my own machine through a Cloudflare Quick Tunnel.
+> The live link is served from my own machine through a stable ngrok endpoint. ngrok shows a one-time safety page on first visit — click "Visit Site".
 > See section 8 for why, and for the Terraform that provisions the Oracle VM.
 > If the link is down when you open it, email me and I will restart the tunnel.
 
