@@ -117,6 +117,7 @@ resource "oci_core_instance" "research_desk" {
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[var.availability_domain_index].name
   display_name        = "research-desk"
   shape               = "VM.Standard.A1.Flex"
+  fault_domain        = "FAULT-DOMAIN-3"
 
   # Always Free allowance as of 2026: 2 OCPU / 12 GB total.
   shape_config {
