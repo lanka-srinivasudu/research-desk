@@ -403,7 +403,7 @@ It stays inside the allowance Oracle reduced from 4 OCPU / 24 GB to 2 OCPU /
 **It is written and validated, but not applied.** Oracle requires a payment card
 at signup for identity verification, which I did not have when I started. The
 brief names the fallback for exactly this case, so I took it: the app runs on my
-own machine behind a Cloudflare Quick Tunnel, and I am telling you plainly
+own machine behind a stable ngrok endpoint, and I am telling you plainly
 rather than implying a VM exists.
 
 Secrets stay out of git: `.gitignore` covers `*.tfstate`, `*.tfstate.*`,
